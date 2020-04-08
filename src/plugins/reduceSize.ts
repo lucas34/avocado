@@ -19,6 +19,13 @@ export function fn(item: JsApi) {
       item.attr(widthAttr).value = '200dp'
       item.attr(heightAttr).value = `${finalHeight}dp`
     }
+
+    if (height > 200) {
+      const finalWidth = Math.round(200 * width / height)
+
+      item.attr(heightAttr).value = '200dp'
+      item.attr(widthAttr).value = `${finalWidth}dp`
+    }
   }
 
   return item;
