@@ -218,11 +218,14 @@ function processData(
     return writeOutput(input, output, result).then(
       () => {
         if (!config.quiet && output !== '-') {
-          if (input) {
-            console.log(`\n${path.basename(input)}:`);
+          if (prevFileSize != resultFileSize) {
+            console.log("----------- avocado -----------")
+            console.log("Please make sure you optimised all new SVG. At least 1 was not optimised")
+            console.log("Please run 'sh scripts/optimize-svg.sh'")
+            throw new Error(`NOT OPTIMIZED SVG: ${path.dirname(input)}/${path.basename(input)}`)
           }
-          printTimeInfo(processingTime);
-          printProfitInfo(prevFileSize, resultFileSize);
+          // printTimeInfo(processingTime);
+          // printProfitInfo(prevFileSize, resultFileSize);
         }
       },
       error =>
@@ -310,6 +313,7 @@ function checkIsDir(filePath: string) {
 
 function printErrorAndExit(error: any) {
   console.error(error);
+  console.log("Exiting with error 1")
   process.exit(1);
   return Promise.reject(error); // for tests
 }
